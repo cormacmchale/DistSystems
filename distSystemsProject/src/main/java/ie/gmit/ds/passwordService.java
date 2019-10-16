@@ -1,8 +1,9 @@
 package ie.gmit.ds;
-
 import com.google.protobuf.ByteString;
-
 public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase {
+	
+	  //need a constructor for use in server
+	  public passwordService(){}
 
 	  //override the hash method - I assume that this will be sent from the client
 	  @Override
@@ -30,7 +31,6 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 		      catch(RuntimeException ex)
 		      {
 		    	  responseObserver.onNext(HashResponse.newBuilder().getDefaultInstanceForType());
-
 		      }
 		      responseObserver.onCompleted();
 		    }	  
