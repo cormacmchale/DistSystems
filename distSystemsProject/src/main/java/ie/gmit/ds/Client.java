@@ -58,11 +58,17 @@ public class Client {
 	        System.out.println(ex.getLocalizedMessage());
 	        return;
         }
-    	
+    	//just checking for functionality... this is not necessary
     	if(result.getUserId()!= 0)
     	{
     		logger.info("Hashed password = "+ result.getHashedPassword());
     	} 	
+    }
+    
+    //async method to check password here
+    public void asyncPasswordValidation()
+    {
+    	
     }
     
     public static void main(String[] args) throws Exception {

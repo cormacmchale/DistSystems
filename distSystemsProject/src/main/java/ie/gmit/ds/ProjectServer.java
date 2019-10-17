@@ -29,8 +29,7 @@ public class ProjectServer {
 	        if (grpcServer != null) {
 	            grpcServer.awaitTermination();
 	        }
-	    }
-	    
+	    }	    
 	    //Main Method to run the server
 	    public static void main(String[] args) throws IOException, InterruptedException {
 	        final ProjectServer projectServer = new ProjectServer();
