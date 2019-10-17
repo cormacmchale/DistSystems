@@ -61,7 +61,7 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 				}
 				//method return false if salt does not unhash password
 				else
-				{
+				{					
 					responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
 				}
 			}

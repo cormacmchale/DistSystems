@@ -3,6 +3,8 @@ package ie.gmit.ds;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import com.google.j2objc.annotations.ReflectionSupport.Level;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -11,8 +13,15 @@ import io.grpc.stub.StreamObserver;
 import java.util.Scanner;
 
 public class Client {
+	
 	//ask the user for an input
 	Scanner UI = new Scanner(System.in);
+	
+	//save hashRequest results for request for validation
+	private ByteString hashedPassword;
+	private ByteString salt;
+	private int clientId;
+	private String password;
 	
 	//initialize applicable fields
     private static final Logger logger = Logger.getLogger(Client.class.getName());  
@@ -40,15 +49,16 @@ public class Client {
     public void requestAHash()
     {
     	System.out.println("Please Enter ID:");
-    	int clientId = UI.nextInt();
+    	clientId = UI.nextInt();
     	System.out.println("Please Enter Password:");
-    	String password = UI.next();
+    	password = UI.next();
     	HashRequest h = HashRequest.newBuilder()
     			                   .setUserId(clientId)
     			                   .setPassword(password)
     			                   .build();
     	
     	HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType();
+    	
     	try 
     	{
     		result = syncPasswordService.hash(h);
@@ -62,14 +72,55 @@ public class Client {
     	if(result.getUserId()!= 0)
     	{
     		logger.info("Hashed password = "+ result.getHashedPassword());
-    	} 	
+    	}
+    	//save these here for validation later
+    	hashedPassword = result.getHashedPassword();
+    	salt = result.getSalt();
     }
     
     //async method to check password here
     public void asyncPasswordValidation()
     {
-    	
+    	System.out.println(hashedPassword.toString()+" "+salt.toString());
+    	StreamObserver<BoolValue> responseObserver = new StreamObserver<BoolValue>()
+    	{
+			@Override
+			public void onNext(BoolValue value) {
+				// TODO Auto-generated method stub
+				if(value.getValue())
+				{
+					System.out.println("Password is correct");
+				}
+				else
+				{
+					System.out.println("Password is incorrect");
+				}
+				
+			}
+			@Override
+			public void onError(Throwable t) {
+				// TODO Auto-generated method stub
+				//dont care
+			}
+
+			@Override
+			public void onCompleted() {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}   		
+    	};   	
+        try {
+            asyncPasswordService.validate(ValidatorRequest.newBuilder().setPassword(password)
+            														   .setHashedPassword(hashedPassword)
+            														   .setSalt(salt).build(), responseObserver);
+        } catch (
+                StatusRuntimeException ex) {
+            //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
+            return;
+        }
     }
+
+    
     
     public static void main(String[] args) throws Exception {
     	//start the client
@@ -77,6 +128,8 @@ public class Client {
         try {
         	//everything should happen here
             passwordclient.requestAHash();
+            //afterwards send the message back for validation
+            passwordclient.asyncPasswordValidation();
         } finally {
             // Don't stop process, keep alive to receive async response
             Thread.currentThread().join();
