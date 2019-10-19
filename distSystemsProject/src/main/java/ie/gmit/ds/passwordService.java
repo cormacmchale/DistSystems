@@ -19,13 +19,15 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 			    	  //int clientId = request.getUserId();
 			    	  //not needed
 			    	  //takeId(clientId);
-		    	  char[] hashThis = request.getPassword().toCharArray();
+		    	  String getPassword = request.getPassword();
+		    	 
+		    	  char[] hashThis = getPassword.toCharArray();
 		    	  byte[] saltForHash = Passwords.getNextSalt();
 		    	  byte[] hashedPassword = Passwords.hash(hashThis, saltForHash);
 		    	  
 		    	  //convert to byteStrings
 		    	  ByteString hashedPasswordByteString = ByteString.copyFrom(hashedPassword);
-		    	  ByteString saltByteString = ByteString.copyFrom(hashedPassword);
+		    	  ByteString saltByteString = ByteString.copyFrom(saltForHash);
 		    	  //build appropriate response	  
 		    	  responseObserver.onNext(HashResponse.newBuilder().setUserId(request.getUserId())
 		    			  										   .setHashedPassword(hashedPasswordByteString)
@@ -43,25 +45,31 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 		@Override
 		public void validate(ValidatorRequest request, StreamObserver<BoolValue> responseObserver) 
 		{
-			// TODO Auto-generated method stub
+			//TODO Auto-generated method stub
 			//super.validate(request, responseObserver)
 			//get the info from the request
 			try
 			{
 				ByteString hashedPasswordByteArray = request.getHashedPassword();
 				ByteString hashedSalt = request.getSalt();
+
 				//everything here to return boolean
-				char[] actualPassword = request.getPassword().toCharArray();
+				//need to get the string here before turning it into a char array
+				String getPassword = request.getPassword();
+				
+				//three values for checking if the password is correct
+				char [] actualPassword = getPassword.toCharArray();
 				byte[] hashedPassword = hashedPasswordByteArray.toByteArray();
 				byte[] salt = hashedSalt.toByteArray();
+				
 			    //call method, check, return true if applicable
 				if(Passwords.isExpectedPassword(actualPassword, salt, hashedPassword))
 				{
 					responseObserver.onNext(BoolValue.newBuilder().setValue(true).build());
 				}
-				//method return false if salt does not unhash password
+				//method return false if salt does not confirm hashed password
 				else
-				{					
+				{	
 					responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
 				}
 			}

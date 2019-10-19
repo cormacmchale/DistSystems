@@ -44,7 +44,6 @@ public class Client {
     
     //method for making the request for a hashed password with salt
     //we should send a message (hashrequest in this) and wait on a message back (hash response)
-    //try synchronous first??
     //add the functionality to ask for a request in console window
     public void requestAHash()
     {
@@ -57,31 +56,29 @@ public class Client {
     			                   .setPassword(password)
     			                   .build();
     	
-    	HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType();
-    	
+    	HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType(); 	
     	try 
     	{
     		result = syncPasswordService.hash(h);
+	        	//just checking for functionality... this is not necessary
+	        	//if(result.getUserId()!= 0)
+	        	//{
+	        	//	logger.info("Hashed password = "+ result.getHashedPassword());
+	        	//}
+        	//save these here for validation later
+        	hashedPassword = result.getHashedPassword();
+        	salt = result.getSalt();
     	}
         catch (StatusRuntimeException ex) 
     	{
 	        System.out.println(ex.getLocalizedMessage());
 	        return;
         }
-    	//just checking for functionality... this is not necessary
-    	if(result.getUserId()!= 0)
-    	{
-    		logger.info("Hashed password = "+ result.getHashedPassword());
-    	}
-    	//save these here for validation later
-    	hashedPassword = result.getHashedPassword();
-    	salt = result.getSalt();
     }
     
     //async method to check password here
     public void asyncPasswordValidation()
     {
-    	System.out.println(hashedPassword.toString()+" "+salt.toString());
     	StreamObserver<BoolValue> responseObserver = new StreamObserver<BoolValue>()
     	{
 			@Override
