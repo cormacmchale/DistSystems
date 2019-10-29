@@ -18,7 +18,6 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 		    	      //just testing
 			    	  //int clientId = request.getUserId();
 			    	  //not needed
-			    	  //takeId(clientId);
 		    	  String getPassword = request.getPassword();
 		    	 
 		    	  char[] hashThis = getPassword.toCharArray();
@@ -58,7 +57,7 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 				String getPassword = request.getPassword();
 				
 				//three values for checking if the password is correct
-				char [] actualPassword = getPassword.toCharArray();
+				char[] actualPassword = getPassword.toCharArray();
 				byte[] hashedPassword = hashedPasswordByteArray.toByteArray();
 				byte[] salt = hashedSalt.toByteArray();
 				

@@ -2,10 +2,8 @@ package ie.gmit.ds;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import com.google.j2objc.annotations.ReflectionSupport.Level;
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;

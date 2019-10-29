@@ -36,6 +36,11 @@
             <artifactId>grpc-stub</artifactId>
             <version>1.23.0</version>
         </dependency>
+         <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-services</artifactId>
+            <version>1.23.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -67,7 +72,21 @@
                     </execution>
                 </executions>
             </plugin>
-
+    		<plugin>
+      			<!-- Build an executable JAR -->
+      			<groupId>org.apache.maven.plugins</groupId>
+      			<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.2</version>
+				      <configuration>
+				        <archive>
+				          <manifest>
+				            <addClasspath>true</addClasspath>
+				            <classpathPrefix>lib/</classpathPrefix>
+				            <mainClass>ie.gmit.ds.ProjectServer</mainClass>
+				          </manifest>
+				        </archive>
+				      </configuration>
+    		</plugin>
         </plugins>
     </build> 
    
