@@ -119,7 +119,7 @@ public class Client {
     
     public static void main(String[] args) throws Exception {
     	//start the client
-        Client passwordclient = new Client("localhost", 50551);
+        Client passwordclient = new Client("192.168.0.101", 40000);
         try {
         	//everything should happen here
             passwordclient.requestAHash();
