@@ -1,4 +1,8 @@
 package appmain;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 public class Userproject {
 
@@ -14,9 +18,13 @@ public class Userproject {
 	}
 	
 	//variables required for a post
+	@NotNull
 	private int userId;
+	@NotBlank
 	private String userName;
+	@NotBlank
 	private String email;
+	@NotBlank
 	private String password;
 	
 	 @JsonProperty

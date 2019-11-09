@@ -10,7 +10,6 @@ public class Appmain extends Application<Webconfigproject> {
     }
 
     public void run(Webconfigproject webconfig, Environment environment) throws Exception {
-        final Adduser resource = new Adduser();
-        environment.jersey().register(resource);
+        environment.jersey().register(new Adduser(environment.getValidator()));
     }
 }
