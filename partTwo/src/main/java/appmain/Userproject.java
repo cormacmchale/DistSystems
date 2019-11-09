@@ -1,11 +1,11 @@
 package appmain;
 import com.fasterxml.jackson.annotation.JsonProperty;
-public class User {
+public class Userproject {
 
-	public User(){//Json deserialisation
-	 }
-	
-	public User(int id, String uN ,String e, String p)
+	public Userproject(){//Json deserialisation
+	}
+    
+	public Userproject(int id, String uN ,String e, String p)
 	{
 		this.userId = id;
 		this.userName = uN;

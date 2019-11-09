@@ -2,6 +2,6 @@ package appmain;
 
 import io.dropwizard.Configuration;
 
-public class Webconfig extends Configuration {
+public class Webconfigproject extends Configuration {
 	//no extra config required
 }
