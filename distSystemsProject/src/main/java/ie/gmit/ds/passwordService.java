@@ -19,7 +19,7 @@ public class passwordService extends PasswordServiceGrpc.PasswordServiceImplBase
 			    	  //int clientId = request.getUserId();
 			    	  //not needed
 		    	  String getPassword = request.getPassword();
-		    	 
+		    	  System.out.println(getPassword);
 		    	  char[] hashThis = getPassword.toCharArray();
 		    	  byte[] saltForHash = Passwords.getNextSalt();
 		    	  byte[] hashedPassword = Passwords.hash(hashThis, saltForHash);

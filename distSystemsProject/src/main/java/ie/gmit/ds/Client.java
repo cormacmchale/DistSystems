@@ -43,17 +43,17 @@ public class Client {
     //method for making the request for a hashed password with salt
     //we should send a message (hashrequest in this) and wait on a message back (hash response)
     //add the functionality to ask for a request in console window
-    public void requestAHash()
+    public String requestAHash(int clientId, String password)
     {
-    	System.out.println("Please Enter ID:");
-    	clientId = UI.nextInt();
-    	System.out.println("Please Enter Password:");
-    	password = UI.next();
+    	//System.out.println("Please Enter ID:");
+    	//clientId = UI.nextInt();
+    	//System.out.println("Please Enter Password:");
+    	//password = UI.next();
+    	System.out.println("Requesting a hash");
     	HashRequest h = HashRequest.newBuilder()
     			                   .setUserId(clientId)
     			                   .setPassword(password)
-    			                   .build();
-    	
+    			                   .build();   	
     	HashResponse result = HashResponse.newBuilder().getDefaultInstanceForType(); 	
     	try 
     	{
@@ -66,11 +66,12 @@ public class Client {
         	//save these here for validation later
         	hashedPassword = result.getHashedPassword();
         	salt = result.getSalt();
+        	return hashedPassword.toString();
     	}
         catch (StatusRuntimeException ex) 
     	{
 	        System.out.println(ex.getLocalizedMessage());
-	        return;
+	        return null;
         }
     }
     
@@ -122,9 +123,9 @@ public class Client {
         Client passwordclient = new Client("192.168.0.101", 40000);
         try {
         	//everything should happen here
-            passwordclient.requestAHash();
+            //passwordclient.requestAHash();
             //afterwards send the message back for validation
-            passwordclient.asyncPasswordValidation();
+            //passwordclient.asyncPasswordValidation();
         } finally {
             // Don't stop process, keep alive to receive async response
             Thread.currentThread().join();

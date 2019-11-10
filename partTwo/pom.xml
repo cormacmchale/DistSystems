@@ -14,7 +14,14 @@
             <artifactId>dropwizard-core</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>ie.gmit.ds</groupId>
+            <artifactId>distSystemsProject</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
+    
 
     <build>
         <plugins>
@@ -72,6 +79,24 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            
+            
+            
+    <plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-install-plugin</artifactId>
+   <version>2.5.1</version>
+   <configuration>
+      <groupId>org.somegroup</groupId>
+      <artifactId>someartifact</artifactId>
+      <version>1.0</version>
+      <packaging>jar</packaging>
+      <file>distSystemsProject-0.0.1-SNAPSHOT.jar</file>
+      <generatePom>true</generatePom>
+   </configuration>
+
+	</plugin>
+            
         </plugins>
     </build>
     
