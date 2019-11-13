@@ -14,14 +14,12 @@
             <artifactId>dropwizard-core</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
-
-        <dependency>
+         <dependency>
             <groupId>ie.gmit.ds</groupId>
             <artifactId>distSystemsProject</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-    
 
     <build>
         <plugins>

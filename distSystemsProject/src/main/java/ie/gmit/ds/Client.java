@@ -8,6 +8,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
@@ -43,7 +45,7 @@ public class Client {
     //method for making the request for a hashed password with salt
     //we should send a message (hashrequest in this) and wait on a message back (hash response)
     //add the functionality to ask for a request in console window
-    public String requestAHash(int clientId, String password)
+    public ArrayList<String> requestAHash(int clientId, String password)
     {
     	//System.out.println("Please Enter ID:");
     	//clientId = UI.nextInt();
@@ -66,7 +68,10 @@ public class Client {
         	//save these here for validation later
         	hashedPassword = result.getHashedPassword();
         	salt = result.getSalt();
-        	return hashedPassword.toString();
+        	ArrayList<String> infoForApi = new ArrayList<String>();
+        	infoForApi.add(hashedPassword.toString());
+        	infoForApi.add(salt.toString());
+        	return infoForApi;
     	}
         catch (StatusRuntimeException ex) 
     	{
